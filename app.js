@@ -17,29 +17,34 @@ app.use(bodyParser.json())
 // })
 
 app.use('/api', graphqlHTTP({
-  schema: buildSchema(`
-    type RootQuery {
-      resume: [String!]!
-      portfolio: [String!]!
-
-    }
-
-    type RootMutation {
-      createResume(name: String): String
-
-    }
-
-    schema {
-      query: RootQuery
-      mutation: RootMutation
-    }
-
-
-  `),
-  rootValue: {
-
-  }
-}))
+    schema: buildSchema(`
+      type RootQuery {
+        resume: [String!]!
+        portfolio: [String!]!
+      }
+      type RootMutation {
+        createResumeItem(name: String): String
+      }
+      schema {
+        query: RootQuery
+        mutation: RootMutation
+      }
+    `),
+    rootValue: {
+      resume: () => {
+        return ['2020', 'Lambda School', 'Team Lead', 'Did stuff with teams']
+      },
+      portfolio: () => {
+        return ['TallyAI', 'An application that did stuff', 'The Github Link', 'The Live Link', 'The ImageURL']
+      },
+      createResumeItem: (args) => {
+        const eventName = args.name
+        return eventName
+      }
+    },
+    graphiql: true
+  })
+)
 
 app.listen(port, () => {
   console.log(`Server is now live on port ${port}`);
