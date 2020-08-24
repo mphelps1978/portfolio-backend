@@ -70,11 +70,32 @@ app.use('/api', graphqlHTTP({
     `),
     rootValue: {
       resume: () => {
-        return resumeItem
+        return Resume.find()
+        .then(resume => {
+          return resume.map(r => {
+            return {...r._doc, _id: r._doc._id.toString()}
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          throw err
+        })
       },
+
       project: () => {
-        return projectItem
+         return Project.find()
+        .then(project => {
+          console.log(project)
+          return project.map(p => {
+            return {...p._doc}
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          throw err
+        })
       },
+
       createResumeItem: (args) => {
         const resumeItem = new Resume({
           company: args.ResumeItemInput.company,
