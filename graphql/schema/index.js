@@ -54,8 +54,8 @@ module.exports =  buildSchema(`
       type RootQuery {
         resumes: [ResumeItems!]!
         projects: [ProjectItems!]!
-
-
+        resumeItem: [ResumeItem!]!
+        projectItem: [ProjectItem!]!
 
       }
 
