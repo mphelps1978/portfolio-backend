@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const { graphqlHTTP } = require('express-graphql')
 const { buildSchema }= require('graphql')
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const Resume = require('./models/resume')
 const Project = require('./models/project')
+const User = require('./models/user')
 
 
 const port = process.env.PORT || 5000
@@ -40,6 +42,12 @@ app.use('/api', graphqlHTTP({
         image_url: String!
       }
 
+      type User {
+        _id: ID!
+        userName: String!
+        password: String
+      }
+
       input ResumeItemInput {
         company: String!
         year: String!
@@ -54,18 +62,25 @@ app.use('/api', graphqlHTTP({
         image_url: String!
       }
 
+      input UserInput {
+        userName: String!
+        password: String!
+      }
+
       type RootQuery {
         resume: [ResumeItem!]!
         project: [ProjectItem!]!
       }
-      type Mutation {
+
+      type RootMutation {
         createResumeItem(ResumeItemInput: ResumeItemInput): ResumeItem
         createProjectItem(ProjectItemInput: ProjectItemInput): ProjectItem
+        createUser(UserInput: UserInput): User
       }
 
       schema {
         query: RootQuery
-        mutation: Mutation
+        mutation: RootMutation
       }
     `),
     rootValue: {
@@ -132,6 +147,28 @@ app.use('/api', graphqlHTTP({
           console.log(err);
           throw err
         })
+      },
+      createUser: args => {
+        return User.findOne({ userName: args.UserInput.userName })
+          .then(user => {
+            if (user) {
+              throw new Error('Username in use.');
+            }
+            return bcrypt.hash(args.UserInput.password, 12);
+          })
+          .then(hashedPassword => {
+            const user = new User({
+              userName: args.UserInput.userName,
+              password: hashedPassword
+            });
+            return user.save();
+          })
+          .then(result => {
+            return { ...result._doc, password: null, _id: result.id };
+          })
+          .catch(err => {
+            throw err;
+          });
       }
     },
     graphiql: true
