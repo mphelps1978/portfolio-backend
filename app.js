@@ -87,7 +87,7 @@ app.use('/api', graphqlHTTP({
         .then(project => {
           console.log(project)
           return project.map(p => {
-            return {...p._doc}
+            return {...p._doc, _id: p._doc._id.toString()}
           })
         })
         .catch(err => {
