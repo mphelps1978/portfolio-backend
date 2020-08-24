@@ -73,7 +73,7 @@ app.use('/api', graphqlHTTP({
         return Resume.find()
         .then(resume => {
           return resume.map(r => {
-            return {...r._doc, _id: r._doc._id.toString()}
+            return {...r._doc, _id: r.id}
           })
         })
         .catch(err => {
@@ -87,7 +87,7 @@ app.use('/api', graphqlHTTP({
         .then(project => {
           console.log(project)
           return project.map(p => {
-            return {...p._doc, _id: p._doc._id.toString()}
+            return {...p._doc, _id: p.id}
           })
         })
         .catch(err => {
@@ -106,7 +106,7 @@ app.use('/api', graphqlHTTP({
         .save()
         .then(res => {
           console.log(res);
-          return {...res._doc}
+          return {...res._doc, _id: res.id}
         })
         .catch(err => {
           console.log(err);
@@ -126,7 +126,7 @@ app.use('/api', graphqlHTTP({
         .save()
         .then(res =>{
           console.log(res);
-          return {...res._doc}
+          return {...res._doc, _id: res.id}
         })
         .catch(err => {
           console.log(err);
