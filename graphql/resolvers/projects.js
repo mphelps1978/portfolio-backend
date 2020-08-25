@@ -14,9 +14,10 @@ module.exports = {
     }
   },
 
-  singleProject: async projectID => {
+  projectById: async (root,args,context,info) => {
+    console.log(args._id);
     try {
-      const project = await Project.findById(projectID)
+      const project = await Project.findOne({id: args._id})
       return project
     }
     catch (err) {

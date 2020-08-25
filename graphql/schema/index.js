@@ -2,11 +2,8 @@ const { buildSchema } = require('graphql')
 
 module.exports =  buildSchema(`
 
-      type ResumeItem {
-        resume(_id: String): ResumeItem!
-      }
 
-      type ResumeItems {
+      type ResumeItem {
         _id: ID!
         company: String!
         year: String!
@@ -14,10 +11,6 @@ module.exports =  buildSchema(`
       }
 
       type ProjectItem {
-        projectItem(_id: String): ProjectItem!
-      }
-
-      type ProjectItems {
         _id: ID!
         proj_name: String!
         description: String!
@@ -52,10 +45,10 @@ module.exports =  buildSchema(`
       }
 
       type RootQuery {
-        resumes: [ResumeItems!]!
-        projects: [ProjectItems!]!
-        resumeItem: [ResumeItem!]!
-        projectItem: [ProjectItem!]!
+        resumes: [ResumeItem!]!
+        projects: [ProjectItem!]!
+        resumeById(id:ID!):ResumeItem
+        projectById(_id:ID!): ProjectItem
 
       }
 

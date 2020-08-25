@@ -13,6 +13,7 @@ const app = express()
 
 
 app.use(bodyParser.json())
+mongoose.set('useUnifiedTopology', true);
 
 //Server Sanity Check
 // app.get('/', (req, res) => {
@@ -30,10 +31,11 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@portfolioproject.v5w3v.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@portfolioproject.v5w3v.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`, { useNewUrlParser: true }
   )
 .then(() => {
   app.listen(port)
+  console.log('Connected to MongoDB');
 })
 .catch(err => {
   console.log(err)
