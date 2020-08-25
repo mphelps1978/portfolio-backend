@@ -2,7 +2,7 @@ const Resume = require ('../../models/resume')
 
 module.exports = {
 
- resume: async () => {
+ resumes: async () => {
 
     try {
       const resume = await Resume.find()
@@ -15,9 +15,9 @@ module.exports = {
     }
   },
 
-  singleResume: async itemID => {
+  resumeById: async (root, args, context, info) => {
     try {
-      const resume = await Resume.findById(itemID)
+      const resume = await Resume.findOne({id: args._id})
       return resume
     }
     catch (err) {
