@@ -15,10 +15,12 @@ const app = express()
 app.use(bodyParser.json())
 mongoose.set('useUnifiedTopology', true);
 
-//Server Sanity Check
-// app.get('/', (req, res) => {
-//   res.send('Sanity Check')
-// })
+// Server Sanity Check
+app.get('/', (req, res) => {
+  res.send('Sanity Check')
+})
+
+
 
 app.use(
   '/api',
