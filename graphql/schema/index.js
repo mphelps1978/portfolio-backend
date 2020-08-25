@@ -25,6 +25,12 @@ module.exports =  buildSchema(`
         password: String
       }
 
+      type AuthData {
+        userID: ID!
+        token: String!
+        tokenExpiration: Int!
+      }
+
       input ResumeItemInput {
         company: String!
         year: String!
@@ -49,6 +55,7 @@ module.exports =  buildSchema(`
         projects: [ProjectItem!]!
         resumeById(_id:ID!):ResumeItem
         projectById(_id:ID!): ProjectItem
+        login(userName: String!, password: String!): AuthData!
 
       }
 
