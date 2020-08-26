@@ -2,7 +2,7 @@ const Project = require('../../models/project')
 
 module.exports = {
 
-  project: async () => {
+  projects: async () => {
     try {
       const project = await Project.find()
       return project.map(p => {
@@ -25,8 +25,10 @@ module.exports = {
     }
   },
 
-  createProjectItem: async (args) => {
-    console.log(args);
+  createProjectItem: async (args, req) => {
+    if(!req.isAuth) {
+      throw new Error("Unauthorized")
+    }
     const item = new Project ({
       proj_name: args.ProjectItemInput.proj_name,
       description: args.ProjectItemInput.description,
