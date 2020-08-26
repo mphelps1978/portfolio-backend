@@ -25,7 +25,10 @@ module.exports = {
     }
   },
 
-  createResumeItem: (args) => {
+  createResumeItem: (args, req) => {
+    if(!req.isAuth){
+      throw new Error('Unauthorized')
+    }
     const resumeItem = new Resume({
       company: args.ResumeItemInput.company,
       year: args.ResumeItemInput.year,
