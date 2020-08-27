@@ -45,5 +45,20 @@ module.exports = {
     catch (err) {
       throw err
     }
+  },
+  deleteProject: async (args, req) => {
+    // if(!req.isAuth) {
+    //   throw new Error('Not Authorized')
+    // }
+    try {
+      const deletedItem = await Project.findByIdAndDelete(args._id)
+      return 'Deleted'
+    }
+    catch (err)  {
+      console.log(err);
+      throw err
+    }
+    // const deletedTodo = await Todo.findByIdAndDelete({ _id });   return { _id: deletedTodo.id,todo: deletedTodo.todo
+
   }
 }

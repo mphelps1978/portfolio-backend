@@ -45,5 +45,25 @@ module.exports = {
       throw err
     })
   },
+  deleteResumeItem: async (args, req) => {
+    if(!req.isAuth) {
+      throw new Error('Not Authorized')
+    }
+    try {
+      const deletedItem = await Resume.findByIdAndDelete(args._id)
+      return 'Deleted'
+    }
+    catch (err)  {
+      console.log(err);
+      throw err
+    }
+   
+
+  }
+  
+
+
+
+
 
 }

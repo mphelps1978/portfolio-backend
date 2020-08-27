@@ -63,6 +63,8 @@ module.exports =  buildSchema(`
         createResumeItem(ResumeItemInput: ResumeItemInput): ResumeItem
         createProjectItem(ProjectItemInput: ProjectItemInput): ProjectItem
         createUser(UserInput: UserInput): User
+        deleteProject(_id: ID!): String
+        deleteResumeItem(_id: ID!): String
       }
 
       schema {
